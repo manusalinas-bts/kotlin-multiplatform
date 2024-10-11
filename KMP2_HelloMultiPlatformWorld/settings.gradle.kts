@@ -1,4 +1,4 @@
-rootProject.name = "KMP2_HelloMultiPlatform"
+rootProject.name = "KMP2_HelloMultiPlatformWorld"
 enableFeaturePreview("TYPESAFE_PROJECT_ACCESSORS")
 
 pluginManagement {
