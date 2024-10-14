@@ -35,14 +35,26 @@ kotlin {
             implementation(libs.androidx.activity.compose)
         }
         commonMain.dependencies {
+            // recomendation -> https://github.com/terrakok/kmp-awesome?tab=readme-ov-file
             implementation(compose.runtime)
-            implementation(compose.foundation)
+            api(compose.foundation)
+            api(compose.animation)
             implementation(compose.material)
             implementation(compose.ui)
             implementation(compose.components.resources)
             implementation(compose.components.uiToolingPreview)
             implementation(libs.androidx.lifecycle.viewmodel)
             implementation(libs.androidx.lifecycle.runtime.compose)
+
+            // Navigation PreCompose
+            api("moe.tlaster:precompose:1.6.2")
+
+            // ViewModel
+            api("moe.tlaster:precompose-viewmodel:1.6.2")
+
+        }
+        iosMain.dependencies {
+            // iOS dependencies
         }
     }
 }
