@@ -1,6 +1,7 @@
 package org.example.project.ui
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -15,15 +16,23 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.material.Button
+import androidx.compose.material.ButtonDefaults
 import androidx.compose.material.Divider
 import androidx.compose.material.ExperimentalMaterialApi
+import androidx.compose.material.Icon
+import androidx.compose.material.IconButton
 import androidx.compose.material.ModalBottomSheetLayout
 import androidx.compose.material.ModalBottomSheetValue
 import androidx.compose.material.Text
 import androidx.compose.material.TextField
 import androidx.compose.material.TextFieldDefaults
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.filled.Apps
+import androidx.compose.material.icons.filled.KeyboardArrowDown
 import androidx.compose.material.rememberModalBottomSheetState
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
@@ -45,6 +54,7 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import kotlinx.coroutines.launch
+import org.example.project.data.TitleTopBarTypes
 import org.example.project.getColorsTheme
 import org.example.project.model.Expense
 import org.example.project.model.ExpenseCategory
@@ -102,6 +112,54 @@ fun ExpensesDetailScreen(
             )
 
             Spacer(modifier = Modifier.height(30.dp))
+
+            ExpenseTypeSelector(
+                categorySelected = categorySelected,
+                openBottomSheet = {
+                    scope.launch {
+                        sheetState.show()
+                    }
+                }
+            )
+
+            Spacer(modifier = Modifier.height(30.dp))
+
+            ExpenseDescription(
+                descriptionContent = description,
+                onDescriptionChnge = {
+                    description = it
+                },
+                keyboardController = keyboardController
+            )
+
+            // Fill empty space until bottom
+            Spacer(modifier = Modifier.weight(1f))
+
+            Button(
+                modifier = Modifier.fillMaxWidth().clip(RoundedCornerShape(45)),
+                colors = ButtonDefaults.buttonColors(
+                    backgroundColor = colors.purple,
+                    contentColor = Color.White
+                ),
+                enabled = price != 0.0 && description.isNotBlank() && expenseCategory.toString().isNotBlank(),
+                onClick = {
+                    val expense = Expense(
+                        amount = price,
+                        category = ExpenseCategory.valueOf(expenseCategory.toString()),
+                        description = description
+                    )
+
+                    val expenseFromEdit = expenseToEdit?.id?.let { expense.copy(id = it) }
+                    addExpenseAndNavigateBack(expenseFromEdit ?: expense)
+                }
+            ) {
+                expenseToEdit?.let {
+                    Text(text = TitleTopBarTypes.EDIT.value)
+                    return@Button
+                }
+
+                Text(text = TitleTopBarTypes.ADD.value)
+            }
         }
     }
 }
@@ -181,6 +239,97 @@ private fun ExpenseAmount(
                 color = Color.Gray
             )
         }
+
+        Divider(color = Color.Black, thickness = 2.dp)
+    }
+}
+
+@Composable
+private fun ExpenseTypeSelector(
+    categorySelected: String,
+    openBottomSheet: () -> Unit
+) {
+    val colors = getColorsTheme()
+
+    Row(verticalAlignment = Alignment.CenterVertically) {
+        Column(
+            modifier = Modifier.weight(1f),
+            verticalArrangement = Arrangement.Center
+        ) {
+            Text(
+                modifier = Modifier.padding(bottom = 16.dp),
+                text = "Expenses made for",
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = Color.Gray
+            )
+
+            Text(
+                text = categorySelected,
+                fontSize = 20.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = colors.textColor
+            )
+        }
+
+        IconButton(
+            modifier = Modifier.clip(RoundedCornerShape(35)).background(colors.colorArrowRound),
+            onClick = {
+                openBottomSheet.invoke()
+            }
+        ) {
+            Icon(
+                imageVector = Icons.Default.KeyboardArrowDown,
+                tint = colors.textColor,
+                contentDescription = "Button Expense type"
+            )
+        }
+    }
+
+}
+
+@Composable
+private fun ExpenseDescription(
+    descriptionContent: String,
+    onDescriptionChnge: (String) -> Unit,
+    keyboardController: SoftwareKeyboardController?
+) {
+    val colors = getColorsTheme()
+    var text by remember { mutableStateOf(descriptionContent) }
+
+    Column {
+        Text(
+            text = "Description",
+            fontSize = 20.sp,
+            fontWeight = FontWeight.SemiBold,
+            color = Color.Gray
+        )
+
+        TextField(
+            modifier = Modifier.fillMaxWidth(),
+            value = text,
+            singleLine = true,
+            textStyle = TextStyle(fontSize = 20.sp, fontWeight = FontWeight.SemiBold),
+            colors = TextFieldDefaults.textFieldColors(
+                textColor = colors.textColor,
+                backgroundColor = colors.backgroundColor,
+                focusedIndicatorColor = Color.Transparent,
+                focusedLabelColor = Color.Transparent,
+                unfocusedIndicatorColor = Color.Transparent,
+                unfocusedLabelColor = Color.Transparent
+            ),
+            onValueChange = { newText ->
+                if (newText.length <= 200) {
+                    text = newText
+                    onDescriptionChnge(newText)
+                }
+            },
+            keyboardActions = KeyboardActions(
+                onDone = {
+                    keyboardController?.hide()
+                }
+            )
+        )
 
         Divider(color = Color.Black, thickness = 2.dp)
     }
