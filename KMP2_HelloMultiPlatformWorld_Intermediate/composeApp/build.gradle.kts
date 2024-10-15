@@ -1,3 +1,4 @@
+import org.gradle.declarative.dsl.schema.FqName.Empty.packageName
 import org.jetbrains.compose.desktop.application.dsl.TargetFormat
 import org.jetbrains.kotlin.gradle.ExperimentalKotlinGradlePluginApi
 import org.jetbrains.kotlin.gradle.dsl.JvmTarget
@@ -7,13 +8,23 @@ plugins {
     alias(libs.plugins.androidApplication)
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
+    id("app.cash.sqldelight") version "2.0.2"
+}
+
+sqldelight {
+    databases {
+        create("AppDatabase") {
+            packageName.set("org.example.project")
+        }
+    }
 }
 
 kotlin {
     androidTarget {
-        @OptIn(ExperimentalKotlinGradlePluginApi::class)
-        compilerOptions {
-            jvmTarget.set(JvmTarget.JVM_11)
+        compilations.all {
+            kotlinOptions {
+                jvmTarget = "11"
+            }
         }
     }
 
@@ -38,6 +49,9 @@ kotlin {
             implementation(project.dependencies.platform("io.insert-koin:koin-bom:3.5.1"))
             implementation("io.insert-koin:koin-core")
             implementation("io.insert-koin:koin-android")
+
+            // * * SQLDelight
+            implementation("app.cash.sqldelight:android-driver:2.0.2")
         }
         commonMain.dependencies {
             // recomendation -> https://github.com/terrakok/kmp-awesome?tab=readme-ov-file
@@ -67,6 +81,9 @@ kotlin {
         }
         iosMain.dependencies {
             // iOS dependencies
+            // * * SQLDelight
+            implementation("app.cash.sqldelight:native-driver:2.0.2")
+            implementation("co.touchlab:stately-common:2.1.0")
         }
 
         commonTest.dependencies {

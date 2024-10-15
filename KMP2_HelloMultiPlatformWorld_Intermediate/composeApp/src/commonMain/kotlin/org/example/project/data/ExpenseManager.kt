@@ -16,37 +16,37 @@ object ExpenseManager {
         ),
         Expense(
             id = currentId++,
-            amount = 85.50,
+            amount = 85.0,
             category = ExpenseCategory.COFFEE,
             description = "Starbucks Latte"
         ),
         Expense(
             id = currentId++,
-            amount = 165.30,
+            amount = 165.0,
             category = ExpenseCategory.SNACKS,
             description = "Oxxo"
         ),
         Expense(
             id = currentId++,
-            amount = 2501345.65,
+            amount = 2500.0,
             category = ExpenseCategory.CAR,
-            description = "Audi A1"
+            description = "Jeep"
         ),
         Expense(
             id = currentId++,
-            amount = 248.0,
+            amount = 240.0,
             category = ExpenseCategory.PARTY,
             description = "Birthday"
         ),
         Expense(
             id = currentId++,
-            amount = 15.50,
+            amount = 15.0,
             category = ExpenseCategory.HOUSE,
             description = "Cleaning"
         ),
         Expense(
             id = currentId++,
-            amount = 456.50,
+            amount = 450.0,
             category = ExpenseCategory.OTHER,
             description = "Services"
         )

@@ -6,6 +6,7 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.FloatingActionButton
 import androidx.compose.material.Icon
 import androidx.compose.material.IconButton
+import androidx.compose.material.MaterialTheme.colors
 import androidx.compose.material.Scaffold
 import androidx.compose.material.Text
 import androidx.compose.material.TopAppBar
@@ -26,77 +27,81 @@ import moe.tlaster.precompose.navigation.rememberNavigator
 import org.example.project.data.TitleTopBarTypes
 import org.example.project.navigation.Navigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
+import org.koin.compose.KoinContext
+import org.koin.core.context.KoinContext
 
 @Composable
 @Preview
 fun App() {
     PreComposeApp {
-        val colors = getColorsTheme()
+        KoinContext() {
+            val colors = getColorsTheme()
 
-        AppTheme {
-            val navigator = rememberNavigator()
-            val titleTopBar = getTitleTopAppBar(navigator)
-            val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
+            AppTheme {
+                val navigator = rememberNavigator()
+                val titleTopBar = getTitleTopAppBar(navigator)
+                val isEditOrAddExpenses = titleTopBar != TitleTopBarTypes.DASHBOARD.value
 
-            Scaffold(
-                modifier = Modifier.fillMaxSize(),
-                topBar = {
-                    TopAppBar(
-                        elevation = 0.dp,
-                        backgroundColor = colors.backgroundColor,
-                        title = {
-                            Text(
-                                text = titleTopBar,
-                                fontSize = 25.sp,
-                                color = colors.textColor
-                            )
-                        },
-                        navigationIcon = {
-                            if (isEditOrAddExpenses) {
-                                IconButton(
-                                    onClick = {
-                                        navigator.popBackStack()
+                Scaffold(
+                    modifier = Modifier.fillMaxSize(),
+                    topBar = {
+                        TopAppBar(
+                            elevation = 0.dp,
+                            backgroundColor = colors.backgroundColor,
+                            title = {
+                                Text(
+                                    text = titleTopBar,
+                                    fontSize = 25.sp,
+                                    color = colors.textColor
+                                )
+                            },
+                            navigationIcon = {
+                                if (isEditOrAddExpenses) {
+                                    IconButton(
+                                        onClick = {
+                                            navigator.popBackStack()
+                                        }
+                                    ) {
+                                        Icon(
+                                            modifier = Modifier.padding(start = 16.dp),
+                                            imageVector = Icons.Default.ArrowBack,
+                                            tint = colors.textColor,
+                                            contentDescription = "Back icon"
+                                        )
                                     }
-                                ) {
+                                } else {
                                     Icon(
                                         modifier = Modifier.padding(start = 16.dp),
-                                        imageVector = Icons.Default.ArrowBack,
+                                        imageVector = Icons.Default.Apps,
                                         tint = colors.textColor,
-                                        contentDescription = "Back icon"
+                                        contentDescription = "Home icon"
                                     )
                                 }
-                            } else {
+                            }
+                        )
+                    },
+                    floatingActionButton = {
+                        if (!isEditOrAddExpenses) {
+                            FloatingActionButton(
+                                modifier = Modifier.padding(8.dp),
+                                shape = RoundedCornerShape(50),
+                                backgroundColor = colors.addIconColor,
+                                contentColor = Color.White,
+                                onClick = {
+                                    navigator.navigate(route = "/addExpenses")
+                                }
+                            ) {
                                 Icon(
-                                    modifier = Modifier.padding(start = 16.dp),
-                                    imageVector = Icons.Default.Apps,
-                                    tint = colors.textColor,
-                                    contentDescription = "Home icon"
+                                    imageVector = Icons.Default.Add,
+                                    tint = Color.White,
+                                    contentDescription = "Add icon"
                                 )
                             }
                         }
-                    )
-                },
-                floatingActionButton = {
-                    if (!isEditOrAddExpenses) {
-                        FloatingActionButton(
-                            modifier = Modifier.padding(8.dp),
-                            shape = RoundedCornerShape(50),
-                            backgroundColor = colors.addIconColor,
-                            contentColor = Color.White,
-                            onClick = {
-                                navigator.navigate(route = "/addExpenses")
-                            }
-                        ) {
-                            Icon(
-                                imageVector = Icons.Default.Add,
-                                tint = Color.White,
-                                contentDescription = "Add icon"
-                            )
-                        }
                     }
+                ) {
+                    Navigation(navigator)
                 }
-            ) {
-                Navigation(navigator)
             }
         }
     }
