@@ -9,6 +9,7 @@ plugins {
     alias(libs.plugins.jetbrainsCompose)
     alias(libs.plugins.compose.compiler)
     id("app.cash.sqldelight") version "2.0.2"
+    kotlin("plugin.serialization") version "2.0.21"
 }
 
 sqldelight {
@@ -52,7 +53,12 @@ kotlin {
 
             // * * SQLDelight
             implementation("app.cash.sqldelight:android-driver:2.0.2")
+
+            // Ktor
+            implementation(libs.ktor.client.okhttp)
+            implementation(libs.kotlinx.coroutines.android)
         }
+
         commonMain.dependencies {
             // recomendation -> https://github.com/terrakok/kmp-awesome?tab=readme-ov-file
             implementation(compose.runtime)
@@ -78,12 +84,22 @@ kotlin {
             implementation("io.insert-koin:koin-core")
             implementation("io.insert-koin:koin-compose")
             api("moe.tlaster:precompose-koin:1.6.2")
+
+            // Ktor
+            implementation(libs.ktor.client.core)
+            implementation(libs.kotlinx.coroutines.core)
+            implementation("io.ktor:ktor-client-content-negotiation:3.0.0")
+            implementation("io.ktor:ktor-serialization-kotlinx-json:3.0.0")
         }
+
         iosMain.dependencies {
             // iOS dependencies
             // * * SQLDelight
             implementation("app.cash.sqldelight:native-driver:2.0.2")
             implementation("co.touchlab:stately-common:2.1.0")
+
+            // Ktor
+            implementation(libs.ktor.client.darwin)
         }
 
         commonTest.dependencies {
