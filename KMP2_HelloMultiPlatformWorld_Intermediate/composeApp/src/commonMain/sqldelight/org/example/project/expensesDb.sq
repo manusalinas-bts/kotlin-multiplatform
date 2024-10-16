@@ -26,6 +26,10 @@ SET amount = ?,
     description = ?
 WHERE id = ?;
 
+delete:
+DELETE FROM ExpenseEntity
+WHERE id = ?;
+
 selectAll:
 SELECT *
 FROM ExpenseEntity;

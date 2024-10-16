@@ -6,7 +6,7 @@ import org.example.project.model.Expense
 import org.example.project.model.ExpenseCategory
 
 class ExpenseRepoImpl(
-    private val expenseManager: ExpenseManager,
+    //private val expenseManager: ExpenseManager,
     private val appDatabase: AppDatabase
 ) : ExpenseRepository {
 
@@ -58,10 +58,17 @@ class ExpenseRepoImpl(
 
     override fun deleteExpense(expense: Expense): List<Expense> {
         // * From Database
+        queries.transaction {
+            queries.delete(
+                id = expense.id
+            )
+        }
+
+        return getAllExpenses()
 
         // * From Mock data
-        expenseManager.deleteExpense(expense)
-        return expenseManager.fakeExpenseList
+        //expenseManager.deleteExpense(expense)
+        //return expenseManager.fakeExpenseList
     }
 
     override fun getCategories(): List<ExpenseCategory> {

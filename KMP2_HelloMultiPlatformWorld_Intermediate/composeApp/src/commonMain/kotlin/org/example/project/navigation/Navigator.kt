@@ -9,9 +9,6 @@ import moe.tlaster.precompose.koin.koinViewModel
 import moe.tlaster.precompose.navigation.NavHost
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
-import moe.tlaster.precompose.viewmodel.viewModel
-import org.example.project.data.ExpenseManager
-import org.example.project.data.ExpenseRepoImpl
 import org.example.project.getColorsTheme
 import org.example.project.presentation.ExpensesViewModel
 import org.example.project.ui.ExpensesDetailScreen
