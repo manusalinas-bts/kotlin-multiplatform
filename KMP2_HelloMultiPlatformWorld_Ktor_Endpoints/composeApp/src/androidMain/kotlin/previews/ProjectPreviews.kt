@@ -57,7 +57,7 @@ fun ExpensesScreenPreview() {
         modifier = Modifier.padding(8.dp)
     ) {
         ExpensesScreen(
-            uiState = ExpensesUiState(
+            uiState = ExpensesUiState.Success(
                 expenses = ExpenseManager.fakeExpenseList,
                 total = 1234.45
             )

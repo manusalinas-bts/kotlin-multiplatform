@@ -4,9 +4,9 @@ import org.example.project.model.Expense
 import org.example.project.model.ExpenseCategory
 
 interface ExpenseRepository {
-    fun getAllExpenses(): List<Expense>
-    fun addExpense(expense: Expense)
-    fun editExpense(expense: Expense)
-    fun deleteExpense(expense: Expense): List<Expense>
+    suspend fun getAllExpenses(): List<Expense>
+    suspend fun addExpense(expense: Expense)
+    suspend fun editExpense(expense: Expense)
+    suspend fun deleteExpense(expense: Expense): List<Expense>
     fun getCategories(): List<ExpenseCategory>
 }
