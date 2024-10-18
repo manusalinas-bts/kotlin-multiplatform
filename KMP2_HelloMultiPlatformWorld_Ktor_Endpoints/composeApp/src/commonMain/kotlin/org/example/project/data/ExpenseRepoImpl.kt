@@ -2,6 +2,7 @@ package org.example.project.data
 
 import io.ktor.client.HttpClient
 import io.ktor.client.call.body
+import io.ktor.client.request.delete
 import io.ktor.client.request.get
 import io.ktor.client.request.post
 import io.ktor.client.request.put
@@ -30,6 +31,10 @@ class ExpenseRepoImpl(
         // 3. Use local info from DB
         return if (queries.selectAll().executeAsList().isEmpty()) {
             val response = httpClient.get("$BASE_URL/expenses").body<List<NetworkExpense>>()
+
+            if (response.isEmpty())
+                return emptyList()
+
             val expenses = response.map { networkExpense ->
                 Expense(
                     id = networkExpense.id,
@@ -106,15 +111,16 @@ class ExpenseRepoImpl(
         }
     }
 
-    override suspend fun deleteExpense(expense: Expense): List<Expense> {
+    override suspend fun deleteExpense(id: Long) {
+        // * Remote
+        httpClient.delete("$BASE_URL/expenses/${id}")
+
         // * From Database
         queries.transaction {
             queries.delete(
-                id = expense.id
+                id = id
             )
         }
-
-        return getAllExpenses()
     }
 
     override fun getCategories(): List<ExpenseCategory> {

@@ -35,7 +35,7 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
                 _uiState.value = ExpensesUiState.Success(expenses, expenses.sumOf { it.amount })
 
             } catch (e: Exception) {
-                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happenned")
+                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happened")
             }
         }
     }
@@ -47,7 +47,7 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
                 _uiState.value = ExpensesUiState.Success(expenses, expenses.sumOf { it.amount })
 
             } catch (e: Exception) {
-                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happenned")
+                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happened")
             }
         }
     }
@@ -58,7 +58,7 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
                 repo.addExpense(expense)
                 updateExpenseList()
             } catch (e: Exception) {
-                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happenned")
+                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happened")
             }
         }
     }
@@ -69,18 +69,18 @@ class ExpensesViewModel(private val repo: ExpenseRepository) : ViewModel() {
                 repo.editExpense(expense)
                 updateExpenseList()
             } catch (e: Exception) {
-                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happenned")
+                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happened")
             }
         }
     }
 
-    fun deleteExpense(expense: Expense) {
+    fun deleteExpense(id: Long) {
         viewModelScope.launch {
             try {
-                repo.deleteExpense(expense)
+                repo.deleteExpense(id)
                 updateExpenseList()
             } catch (e: Exception) {
-                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happenned")
+                _uiState.value = ExpensesUiState.Error(e.message ?: "Error happened")
             }
         }
     }

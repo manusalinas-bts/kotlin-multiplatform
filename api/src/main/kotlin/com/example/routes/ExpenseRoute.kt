@@ -15,11 +15,7 @@ import io.ktor.server.routing.put
 
 fun Route.expensesRouting() {
     get("/expenses") {
-        if (expenses.isEmpty()) {
-            call.respondText { "No expenses found" }
-        } else {
-            call.respond(status = HttpStatusCode.OK, expenses)
-        }
+        call.respond(status = HttpStatusCode.OK, expenses)
     }
 
     get("/expenses/{id}") {
@@ -36,13 +32,17 @@ fun Route.expensesRouting() {
 
     post("/expenses") {
         val expense = call.receive<Expense>()
-        val maxId = expenses.maxOf { it.id } + 1
+        val lastExpenseId = if (expenses.isEmpty()) {
+            expense.id
+        } else {
+            expenses.maxOf { it.id } + 1
+        }
 
-        expenses.add(expense.copy(id = maxId))
+        expenses.add(expense.copy(id = lastExpenseId))
         call.respond(HttpStatusCode.OK, MessageResponse("Expense added successfully"))
     }
 
-    put("/expenses/{id}"){
+    put("/expenses/{id}") {
         val id = call.parameters["id"]?.toLongOrNull()
         val expense = call.receive<Expense>()
 
@@ -56,7 +56,7 @@ fun Route.expensesRouting() {
         call.respond(HttpStatusCode.OK, MessageResponse("Expense updated successfully"))
     }
 
-    delete("/expenses/{id}"){
+    delete("/expenses/{id}") {
         val id = call.parameters["id"]?.toLongOrNull()
         val expense = expenses.find { it.id == id }
 

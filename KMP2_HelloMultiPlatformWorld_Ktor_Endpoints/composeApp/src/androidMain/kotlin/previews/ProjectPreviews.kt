@@ -60,7 +60,9 @@ fun ExpensesScreenPreview() {
             uiState = ExpensesUiState.Success(
                 expenses = ExpenseManager.fakeExpenseList,
                 total = 1234.45
-            )
-        ) { }
+            ),
+            onExpenseClick = {},
+            onDeleteExpense = {}
+        )
     }
 }
