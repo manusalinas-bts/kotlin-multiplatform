@@ -114,7 +114,7 @@ kotlin {
         }
 
         commonTest.dependencies {
-            implementation(libs.kotlin.test)
+            //implementation(libs.kotlin.test)
             implementation(kotlin("test"))
 
             @OptIn(org.jetbrains.compose.ExperimentalComposeLibrary::class)
