@@ -1,6 +1,10 @@
 
 # My Expenses app + Ktor (Endpoints) + UITests
 
+- First steps with Ktor
+- Basic UITest
+- Unit test
+
 ![Simulator Screen Recording - iPhone 16 Pro - 2024-10-15 at 11 52 37](https://github.com/user-attachments/assets/43cd3693-d58f-478f-ad5f-4f85e0fe3a21)
 
 This is a Kotlin Multiplatform project targeting Android, iOS.
