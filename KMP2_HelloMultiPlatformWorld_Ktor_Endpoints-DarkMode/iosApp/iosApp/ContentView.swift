@@ -11,11 +11,25 @@ struct ComposeView: UIViewControllerRepresentable {
 }
 
 struct ContentView: View {
+    @Binding var isDarkMode: Bool
+
     var body: some View {
-        ComposeView()
-                .ignoresSafeArea(.keyboard) // Compose has own keyboard handler
+        ZStack {
+            ColorStatusBarView(isDarkMode: $isDarkMode)
+            ComposeView()
+        }
+        .ignoresSafeArea(.all, edges: .bottom)
     }
 }
 
+// MARK: - Color Status Bar
+struct ColorStatusBarView: View  {
+    @Binding var isDarkMode: Bool
 
+    var body: some View {
+        let coloStatusBarDarkMode = Color.black.opacity(0.3)
+        let statusBarColor = isDarkMode ? coloStatusBarDarkMode : .white
+        return statusBarColor.ignoresSafeArea(.all)
+    }
+}
 
