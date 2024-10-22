@@ -16,7 +16,7 @@ import org.example.project.model.Expense
 import org.example.project.model.ExpenseCategory
 import org.example.project.model.NetworkExpense
 
-private const val BASE_URL = "http://192.168.68.112:8080" // Obtain this from your Wifi Details
+private const val BASE_URL = "http://192.168.68.111:8080" // Obtain this from your Wifi Details
 
 class ExpenseRepoImpl(
     private val appDatabase: AppDatabase,

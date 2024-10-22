@@ -24,6 +24,8 @@ import moe.tlaster.precompose.PreComposeApp
 import moe.tlaster.precompose.navigation.Navigator
 import moe.tlaster.precompose.navigation.path
 import moe.tlaster.precompose.navigation.rememberNavigator
+import org.example.project.data.CrossConfigDevice
+import org.example.project.data.SessionCache
 import org.example.project.data.TitleTopBarTypes
 import org.example.project.navigation.Navigation
 import org.jetbrains.compose.ui.tooling.preview.Preview
@@ -32,10 +34,11 @@ import org.koin.core.context.KoinContext
 
 @Composable
 @Preview
-fun App() {
+fun App(configDevice: CrossConfigDevice? = null) {
     PreComposeApp {
         KoinContext() {
             val colors = getColorsTheme()
+            SessionCache.configDevice = configDevice
 
             AppTheme {
                 val navigator = rememberNavigator()
