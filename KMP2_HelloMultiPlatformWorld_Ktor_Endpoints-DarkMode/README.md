@@ -1,9 +1,12 @@
 
-# My Expenses app (Intermediate)
+# My Expenses app + Dark Mode
 
-- Includes SQL DB
+- Dark Mode
+- Navigation bar colors
 
-![Simulator Screen Recording - iPhone 16 Pro - 2024-10-15 at 11 52 37](https://github.com/user-attachments/assets/43cd3693-d58f-478f-ad5f-4f85e0fe3a21)
+https://github.com/user-attachments/assets/15929a2a-bc11-443b-815a-3f9e910f769c
+
+
 
 This is a Kotlin Multiplatform project targeting Android, iOS.
 
