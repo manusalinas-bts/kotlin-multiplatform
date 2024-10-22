@@ -1,7 +1,7 @@
 
-# My Expenses app (Intermediate)
+# My Expenses app + Endpoints consumption via [Ktor](https://ktor.io)
 
-- Includes SQL DB
+- Includes Endpoint requests
 
 ![Simulator Screen Recording - iPhone 16 Pro - 2024-10-15 at 11 52 37](https://github.com/user-attachments/assets/43cd3693-d58f-478f-ad5f-4f85e0fe3a21)
 
