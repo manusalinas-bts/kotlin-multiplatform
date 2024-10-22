@@ -1,3 +1,5 @@
+# Super basic sample where Instructor shows how multiplatform works for Web Browsers
+
 This is a Kotlin Multiplatform project targeting Android, iOS, Web.
 
 * `/composeApp` is for code that will be shared across your Compose Multiplatform applications.
